@@ -281,26 +281,40 @@ def registerCourse():
           while not checkCourseID(selectedCourseID ):
             wrongInputHandler()
             selectedCourseID = int(input('Enter selected course id:\n'))
+          while alreadyEnrolled(selectedStudentID, selectedCourseID):
+            print('\nThe student has already enrolled for the course.\n')
+            while True: 
+                select = input('Please enter your choice:\n'
+                                '[1] Register for Other Course\n'
+                                '[2] Back to Menu\n')
+                if select == '1':
+                  selectedCourseID = int(input('Enter selected course id:\n'))
+                  break
+                elif select == '2':
+                  main()
+                  break
+                else:
+                  wrongInputHandler()
         except ValueError:
           wrongInputHandler()
           continue
         else: 
           break
       # Check if the student has already enrolled for the course
-      while alreadyEnrolled(selectedStudentID, selectedCourseID):
-        print('\nThe student has already enrolled for the course.\n')
-        while True: 
-            select = input('Please enter your choice:\n'
-                            '[1] Register for Other Course\n'
-                            '[2] Back to Menu\n')
-            if select == '1':
-              selectedCourseID = int(input('Enter selected course id:\n'))
-              break
-            elif select == '2':
-              main()
-              break
-            else:
-              wrongInputHandler()
+      # while alreadyEnrolled(selectedStudentID, selectedCourseID):
+      #   print('\nThe student has already enrolled for the course.\n')
+      #   while True: 
+      #       select = input('Please enter your choice:\n'
+      #                       '[1] Register for Other Course\n'
+      #                       '[2] Back to Menu\n')
+      #       if select == '1':
+      #         selectedCourseID = int(input('Enter selected course id:\n'))
+      #         break
+      #       elif select == '2':
+      #         main()
+      #         break
+      #       else:
+      #         wrongInputHandler()
       # Check if the courses overlap
       if isOverLap(selectedStudentID, selectedCourseID):
         print('\nThe chosen course overlaps existed course of the student.')
@@ -345,9 +359,8 @@ def alreadyEnrolled(studentID, courseID):
     if student.id == studentID:
       for course in student.registerCourses:
         if course.id == courseID:
-          return True
-        else:
-          return False
+          return True     
+  return False
 
 # Function to check if courses timetable overlap
 def isOverLap(studentID, courseID):
@@ -364,7 +377,7 @@ def isOverLap(studentID, courseID):
               for date in studentCourse.weekDays:
                 studentCourseDate.append(date[0])
               overLapDate = set(courseDate).intersection(studentCourseDate)
-              if len(set(overLapDate)) > 0:
+              if len(overLapDate) > 0:
                 for date in overLapDate:
                   for i in course.weekDays:
                     for j in studentCourse.weekDays:
@@ -379,10 +392,9 @@ def isOverLap(studentID, courseID):
                           earliestEnd = i[2]
                         else: 
                           earliestEnd = j[2]
-                        if isSmallerOrEqual(earliestEnd, lastestStart):
-                          return False
-                        else: 
+                        if not isSmallerOrEqual(earliestEnd, lastestStart):
                           return True
+  return False
                         
 # Function to show student's timetable
 def studentTimeTable():
@@ -437,10 +449,10 @@ def studentTimeTable():
             for course in student.registerCourses:
               for period in course.periods:
                 for date in course.weekDays:
-                  table.add_row([course.id, course.name, int(period), date[0], date[1], date[2]])
+                  table.add_row([course.id, course.name, period, date[0], date[1], date[2]])
             banner('Student: ' + student.name + ' - Timetable for All Periods')
             # Print the table with periods order
-            print(table.get_string(sort_key=operator.itemgetter(1, 0), sortby="Periods"))
+            print(table.get_string(sort_key=operator.itemgetter(3, 0), sortby="Periods"))
             while True: 
               select = input('\nPlease enter your choice:\n'
                               '[1] Display Other Student Timetable\n'
@@ -473,8 +485,8 @@ def studentTimeTable():
               print('\nThe student has no course with timetable in the selected period(s).\n')
             else:
               banner('Student: ' + student.name + ' - Timetable for Period(s): ' + ', '.join(set(samePeriod)))
-              # Print the table in course ID order
-              print(table.get_string(sort_key=operator.itemgetter(1, 0), sortby="Periods"))
+              # Print the table in period order and then course ID order
+              print(table.get_string(sort_key=operator.itemgetter(3, 1), sortby="Periods"))
             while True: 
               select = input('\nPlease enter your choice:\n'
                               '[1] Display Other Student Timetable\n'
@@ -578,5 +590,8 @@ def main():
 
 if __name__ == '__main__':
   main()
+
+
+
 
 
