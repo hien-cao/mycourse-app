@@ -5,7 +5,7 @@ class Student:
   def __init__(self, firstName, lastName, gender):
     self.id = self.studentIDGenerator()
     self.name = '{} {}'.format(firstName.strip().lower().capitalize(), lastName.strip().lower().capitalize())
-    self.email = '{}.{}@aalto.fi'.format(firstName.lower(), lastName.lower())
+    self.email = '{}.{}@aalto.fi'.format(firstName.strip().lower(), lastName.strip().lower())
     self.gender = gender.strip().lower().capitalize()
     self.registerCourses = []
   
