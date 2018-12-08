@@ -11,11 +11,11 @@
 
 ## Project information:
 
-**Project Name:** Study plan management system
+**Project Name:** Study plan management system (Mycourse)
 
 **Project Description:** Implement a system to maintain study plans for students. The system should be able to maintain multiple students, each with a personal study plan. The study plan consists of courses that a student has planned to take. For each course the system should maintain the schedule: which periods and at which times the course events take place. For each student the system should be able to present a personal schedule for each period, depending on which courses the student has selected.
 
-**Project Language and Libraries:** The app is written by python3 with PrettyTable library and other built-in python library such as time, system, operator.
+**Project Language and Libraries:** The app is written in python3 with PrettyTable library and other built-in python libraries such as time, system, operator.
 
 ## Running the Program:
 * `python3 -m pip install -r requirements.txt`
@@ -23,11 +23,11 @@
 
 ## Program struture:
 * app.py - contains the main functions and error handlers to run the program
-* models.py - contains the data structure and database of Student and Course
+* models.py - contains the data structures and databases of Student and Course
 * requirements.txt - contains the external python libraries required to run the program
 * README.md
 
-## Main Feature:
+## Main Features:
 * Add new student
 * Add new course
 * Register for courses, which also handle overlap notification
